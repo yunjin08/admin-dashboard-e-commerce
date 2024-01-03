@@ -19,12 +19,16 @@ export const POST = async (req, res) => {
 export const GET = async (req, res) => {
   try {
     await connectToDB();
-
-    const products = await Product.find({});
-
     const headers = { "Cache-Control": "no-store" };
 
-    return new Response(JSON.stringify(products), { status: 200, headers });
+    if (req.query?.id) {
+      const products = await Product.findOne({ _id: req.query.id });
+      return new Response(JSON.stringify(products), { status: 200, headers });
+    } else {
+      const products = await Product.find({});
+
+      return new Response(JSON.stringify(products), { status: 200, headers });
+    }
   } catch (error) {
     return new Response("Failed to fetch all prodcuts", { status: 500 });
   }

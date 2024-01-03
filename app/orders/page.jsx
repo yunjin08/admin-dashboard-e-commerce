@@ -1,11 +1,8 @@
 import React from "react";
+import Layout from "@/components/Layout";
 
 function Page() {
-  return (
-    <div className="bg-white text-black p-4 mb-0 flex-grow mt-2 mr-2">
-      Logged in at Orders
-    </div>
-  );
+  return <Layout>Logged in at Orders</Layout>;
 }
 
 export default Page;

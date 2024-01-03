@@ -11,7 +11,6 @@ function Page() {
       setProducts(response.data);
     });
   }, []);
-  console.log(product);
   return (
     <Layout>
       <Link

@@ -3,11 +3,15 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 
-function ProductsForm() {
+function ProductsForm({
+  title: existingTitle,
+  description: existingDescription,
+  price: existingPrice,
+}) {
   const router = useRouter();
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [price, setPrice] = useState("");
+  const [title, setTitle] = useState(existingTitle || "");
+  const [description, setDescription] = useState(existingDescription || "");
+  const [price, setPrice] = useState(existingPrice || "");
   const [goToProudcts, setGoToProducts] = useState(false);
 
   const createProduct = async (ev) => {
@@ -26,7 +30,6 @@ function ProductsForm() {
   }
   return (
     <form onSubmit={createProduct}>
-      <h1> New Product</h1>
       <label> Product Name</label>
       <input
         type="text"

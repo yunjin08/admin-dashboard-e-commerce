@@ -1,6 +1,7 @@
 import { Inter } from "next/font/google";
 import Provider from "/components/Provider";
 import "./globals.css";
+import Navbar from "@/components/Navbar";
 
 export const metadata = {
   title: "Create Next App",
@@ -12,7 +13,10 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         <Provider>
-          <main>{children}</main>
+          <main className="bg-blue-900 min-h-screen flex">
+            <Navbar />
+            {children}
+          </main>
         </Provider>
       </body>
     </html>

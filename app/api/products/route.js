@@ -15,3 +15,17 @@ export const POST = async (req, res) => {
     return new Response("Failed to create a new prompt", { status: 500 });
   }
 };
+
+export const GET = async (req, res) => {
+  try {
+    await connectToDB();
+
+    const products = await Product.find({});
+
+    const headers = { "Cache-Control": "no-store" };
+
+    return new Response(JSON.stringify(products), { status: 200, headers });
+  } catch (error) {
+    return new Response("Failed to fetch all prodcuts", { status: 500 });
+  }
+};

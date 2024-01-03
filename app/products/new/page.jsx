@@ -2,11 +2,14 @@
 import React, { useState } from "react";
 import Layout from "@/components/Layout";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
 function Page() {
+  const router = useRouter();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
+  const [goToProudcts, setGoToProducts] = useState(false);
 
   const createProduct = async (ev) => {
     if (!title || !price) {
@@ -15,9 +18,13 @@ function Page() {
     }
     ev.preventDefault();
     const data = { title, description, price };
-    console.log(data);
     await axios.post("/api/products", data);
+    setGoToProducts(true);
   };
+
+  if (goToProudcts) {
+    return router.push("/products");
+  }
   return (
     <Layout>
       <form onSubmit={createProduct}>

@@ -12,12 +12,11 @@ function Page() {
     if (!params.id) {
       return;
     }
-    axios.get("/api/products?id=" + params.id).then((response) => {
+    axios.get(`/api/products/edit/${params.id}`).then((response) => {
       setProductInfo(response.data);
     });
   }, [params.id]);
 
-  console.log({ ...productInfo });
   return (
     <Layout>
       <h1> Edit Product</h1>

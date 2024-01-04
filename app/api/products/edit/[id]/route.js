@@ -1,36 +1,15 @@
 import Product from "@/models/Product";
 import { connectToDB } from "@/utils/database";
 
-export const POST = async (req, res) => {
-  const { title, description, price } = await req.json();
-  try {
-    console.log("Request Body:", req.body);
-    await connectToDB();
-
-    const productDoc = new Product({ title, description, price });
-
-    await productDoc.save();
-    return new Response(JSON.stringify(productDoc), { status: 201 });
-  } catch (error) {
-    return new Response("Failed to create a new prompt", { status: 500 });
-  }
-};
-
-export const GET = async (req, { params }) => {
-  console.log(params);
+export const GET = async (request, { params }) => {
+  console.log("Req:" + params);
   try {
     await connectToDB();
-    const headers = { "Cache-Control": "no-store" };
 
-    if (params) {
-      const products = await Product.findbyId(params.id);
-      return new Response(JSON.stringify(products), { status: 200, headers });
-    } else {
-      const products = await Product.find({});
-
-      return new Response(JSON.stringify(products), { status: 200, headers });
-    }
+    const products = await Product.findById(params.id);
+    return new Response(JSON.stringify(products), { status: 200 });
   } catch (error) {
-    return new Response("Failed to fetch all prodcuts", { status: 500 });
+    console.log(error);
+    return new Response("Failed to fetch product", { status: 500 });
   }
 };

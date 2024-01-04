@@ -4,6 +4,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 
 function ProductsForm({
+  _id,
   title: existingTitle,
   description: existingDescription,
   price: existingPrice,
@@ -14,22 +15,32 @@ function ProductsForm({
   const [price, setPrice] = useState(existingPrice || "");
   const [goToProudcts, setGoToProducts] = useState(false);
 
-  const createProduct = async (ev) => {
+  const saveProduct = async (ev) => {
+    ev.preventDefault();
+    const data = { title, description, price };
+
     if (!title || !price) {
       console.error("Title and price are required");
       return;
     }
-    ev.preventDefault();
-    const data = { title, description, price };
-    await axios.post("/api/products", data);
-    setGoToProducts(true);
+
+    try {
+      if (_id) {
+        await axios.patch(`/api/products/edit/${_id}`, { ...data });
+      } else {
+        await axios.post("/api/products", data);
+      }
+      setGoToProducts(true);
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   if (goToProudcts) {
     return router.push("/products");
   }
   return (
-    <form onSubmit={createProduct}>
+    <form onSubmit={saveProduct}>
       <label> Product Name</label>
       <input
         type="text"

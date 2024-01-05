@@ -35,3 +35,16 @@ export const PATCH = async (request, { params }) => {
     return new Response("Failed to edit a product", { status: 500 });
   }
 };
+
+export const DELETE = async (request, { params }) => {
+  console.log("Req:" + params);
+  try {
+    await connectToDB();
+
+    await Product.findByIdAndDelete(params.id);
+    return new Response("Prompt Delete Succesfully", { status: 200 });
+  } catch (error) {
+    console.log(error);
+    return new Response("Products Delete Unsuccesfully", { status: 500 });
+  }
+};

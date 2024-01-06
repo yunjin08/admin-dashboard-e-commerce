@@ -20,9 +20,9 @@ function ProductsForm({
     const files = ev.target?.files;
     if (files.length > 0) {
       const data = new FormData();
-      files.forEach((file) => {
+      for (const file of files) {
         data.append("file", file);
-      });
+      }
       const response = await axios.post("/api/upload", data);
       console.log(response.data);
     }
